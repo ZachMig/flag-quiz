@@ -1,6 +1,85 @@
 .app-container {
   background-color: aquamarine;
   height: 100vh;
+  width: 100vw;
   display: flex;
   align-items: center;
+}
+
+.burger-box {
+  position: absolute;
+  top: 5em;
+  left: 5em;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.burger-line {
+  width: 35px;
+  height: 5px;
+  background-color: black;
+  margin: 6px 0;
+}
+
+.menu-modal-background {
+  position: absolute;
+  background-color: rgb(105, 101, 101);
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+  margin-left: 8vw;
+  margin-right: 8vw;
+  width: 84vw;
+  height: 90vh;
+  opacity: 95%;
+  z-index: 1;
+  border-radius: 5em;
+}
+
+.menu-modal-container {
+  opacity: 100%;
+}
+
+.menu-modal-container h1 {
+  text-align: center;
+  color: black;
+}
+
+.preset-option-list {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  margin-left: 2em;
+}
+
+.preset-option {
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  width: 15vw;
+  text-align: center;
+  font-size: 2em;
+  border-radius: 0.5em;
+  border-width: 0.1em;
+  border-color: black;
+  border-style: solid;
+  margin-bottom: 0.5em;
+}
+
+.preset-option:hover {
+  color: white;
+  background-color: #1a1a1a;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.preset-option:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+.active-preset {
+  color: white;
+  background-color: #1a1a1a;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
 }

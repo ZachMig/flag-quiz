@@ -53,7 +53,12 @@ const QuizUI = ({ selectedCountryCodes }: QuizUIProps) => {
   // Generate options ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Return shuffled array of country codes including the correct one
   const options = useMemo(() => {
-    console.log("Generating options.");
+    console.log(
+      "Generating options for index " +
+        countryCodeIndex +
+        ": " +
+        selectedCountryCodes[countryCodeIndex]
+    );
 
     // Set of country codes
     const optionsSet = new Set<string>();
@@ -149,21 +154,16 @@ const QuizUI = ({ selectedCountryCodes }: QuizUIProps) => {
     const hoveredFlagPath = flagPaths.get(option);
 
     if (hoveredFlagPath) setCurrentFlagPath(hoveredFlagPath);
-
-    // console.log("Setting to " + hoveredFlagPath);
   };
 
   // Reset current displayed flag ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const handleMouseLeave = () => {
     if (!inbetweenRoundsRef.current) return;
     setCurrentFlagPath(flagPaths?.get(selectedCountryCodes[countryCodeIndex]));
-    // console.log(
-    //   "Resetting to " + flagPaths?.get(selectedCountryCodes[countryCodeIndex])
-    // );
   };
 
   // While waiting for flag paths to be resolved ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  if (!flagPaths) {
+  if (!flagPaths || !selectedCountryCodes) {
     return <span> Loading... </span>;
   }
 
