@@ -4,14 +4,12 @@ import "../css/QuizUI.css";
 
 interface QuizUIProps {
   selectedCountryCodes: string[];
+  handleGameEnd: () => void;
 }
 
 // Component Start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const QuizUI = ({ selectedCountryCodes }: QuizUIProps) => {
+const QuizUI = ({ selectedCountryCodes, handleGameEnd }: QuizUIProps) => {
   const countryMap: Record<string, string> = countries;
-  // const countryCodes: string[] = Object.keys(countryMap);
-  // const countryNames: string[] = Object.values(countryMap);
-
   const [flagPaths, setFlagPaths] = useState<null | Map<String, string>>(null);
   const [countryCodeIndex, setCountryCodeIndex] = useState<number>(0);
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
@@ -22,7 +20,7 @@ const QuizUI = ({ selectedCountryCodes }: QuizUIProps) => {
   );
   const inbetweenRoundsRef = useRef<boolean>(false);
 
-  const numChoices = 12;
+  const numChoices = Math.min(12, selectedCountryCodes.length);
 
   const modules: any = import.meta.glob("../assets/flags/*.svg", {
     eager: true,
@@ -68,8 +66,8 @@ const QuizUI = ({ selectedCountryCodes }: QuizUIProps) => {
 
     // Generate bait options
     while (optionsSet.size < numChoices) {
-      const index = Math.floor(Math.random() * Object.keys(countryMap).length);
-      optionsSet.add(Object.keys(countryMap)[index]);
+      const index = Math.floor(Math.random() * selectedCountryCodes.length);
+      optionsSet.add(selectedCountryCodes[index]);
     }
 
     // Change set into arr to shuffle
@@ -89,6 +87,7 @@ const QuizUI = ({ selectedCountryCodes }: QuizUIProps) => {
   // UseEffect Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   useEffect(() => {
     getFlagPaths();
+    setCountryCodeIndex(0);
   }, [selectedCountryCodes]);
 
   useEffect(() => {
@@ -133,8 +132,9 @@ const QuizUI = ({ selectedCountryCodes }: QuizUIProps) => {
 
     // This was the last country in our game
     if (countryCodeIndex === selectedCountryCodes.length - 1) {
-      setCurrentFlagPath(flagPaths?.get(selectedCountryCodes[0]));
-      setCountryCodeIndex(0); // Temp wrap around
+      // setCurrentFlagPath(flagPaths?.get(selectedCountryCodes[0]));
+      // setCountryCodeIndex(0); // Temp wrap around
+      handleGameEnd();
     } else {
       setCurrentFlagPath(
         flagPaths?.get(selectedCountryCodes[countryCodeIndex + 1])
